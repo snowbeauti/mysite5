@@ -45,5 +45,24 @@ public class GuestService {
 			return "fail";
 		}
 	}
+	
+	/* 글 삭제 */
+	public int remove(GuestVo gvo){
+		System.out.println("[gservice] remove()");
+		
+		return gdao.delete(gvo);
+	}
 
+	//ajax 글 저장
+	public GuestVo writeResultVo(GuestVo gvo) {
+		//글저장
+		gdao.insertSelectkey(gvo);
+		
+		//no값을 알 수 있다.
+		int no  = gvo.getNo();
+		
+		//글 1개 조회
+		return gdao.selectOne(no);
+		
+	}
 }

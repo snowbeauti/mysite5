@@ -53,4 +53,15 @@
 		]]>
 	</update>
 	
+	<!-- 회원정보 가져오기 회원가입중복확인 -->
+		<select id="selectBuId" parameterType="String" resultType="com.javaex.vo.UserVo">
+		<![CDATA[
+			SELECT no,
+			       id,
+			       name,
+			       gender
+			FROM users
+			where id = #{id}
+		]]>	
+	</select>
 </mapper>

@@ -1,6 +1,8 @@
 package com.javaex.controller;
 
 import java.util.List;
+import java.util.Map;
+
 import javax.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -34,6 +36,33 @@ public class BoardController {
 		
 	}
 	
+	//리스트 + 검색기능
+	@RequestMapping(value = "/list2", method = {RequestMethod.GET, RequestMethod.POST})
+	public String list2(@RequestParam(value = "keyword", required = false, defaultValue = "") String keyword, Model model) {
+		System.out.println("boardControll.list2() keyword: " + keyword);
+		
+		List<BoardVo> boardList = bservice.boardList2(keyword);
+		
+		model.addAttribute("bList", boardList);
+		
+		return "board/List2";
+		
+	}
+	
+	//리스트 + 검색기능 + 페이징
+	@RequestMapping(value = "/list3", method = {RequestMethod.GET, RequestMethod.POST})
+	public String list3(@RequestParam(value = "keyword", required = false, defaultValue = "") String keyword, 
+						@RequestParam(value = "crtPage", required = false, defaultValue = "1") int crtPage,
+						Model model) {
+		System.out.println("boardControll.list3() keyword: " + keyword + "crtPage: " + crtPage);
+		
+		Map<String, Object> pMap = bservice.boardList3(keyword, crtPage);
+		System.out.println(pMap);
+		model.addAttribute("pMap", pMap);
+		
+		return "board/List3";
+		
+	}
 	//게시글 읽기
 	@RequestMapping(value = "/read",method = { RequestMethod.GET, RequestMethod.POST })
 	public String read(@ModelAttribute BoardVo boardvo, Model model) {
@@ -99,16 +128,4 @@ public class BoardController {
 		return"redirect:/board";
 	}
 
-	//게시글 검색
-	@RequestMapping(value = "/search", method = { RequestMethod.GET, RequestMethod.POST })
-	public String search(@RequestParam ("word") String word, Model model) {
-		
-		
-		List<BoardVo> bList = bservice.searchList(word);
-		System.out.println(bList.toString());
-		
-		model.addAttribute("bList", bList);
-					
-		return "board/List";
-	}
 }

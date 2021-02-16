@@ -1,6 +1,8 @@
 package com.javaex.dao;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.apache.ibatis.session.SqlSession;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,6 +23,35 @@ public class BoardDao {
 		return sqlSession.selectList("board.selectList");
 	}
 	
+	//글 전체 가져오기 (키워드)
+	public List<BoardVo> selectList2(String keyword){
+		System.out.println("bdao boardList2 keyword: " + keyword);
+		List<BoardVo> boardList = sqlSession.selectList("board.selectList2", keyword);
+		System.out.println("boardList: " + boardList);
+		
+		return boardList;
+	}
+	
+	//글 전체 가져오기 (키워드+페이징)
+	public List<BoardVo> selectList3(String keyword, int startRNum, int endRNum){
+		System.out.println("bdao boardList3 keyword: " + keyword);
+		
+		Map<String, Object> map = new HashMap<String, Object>();
+		map.put("keyword", keyword);
+		map.put("startRNum", startRNum);
+		map.put("endRNum", endRNum);
+		System.out.println("map: " + map);
+		
+		return sqlSession.selectList("board.selectList3", map);
+	}
+	
+	//전체 글 개수조회
+	public int selectTotalCnt(String keyword) {
+		
+		return sqlSession.selectOne("board.selectTotalCnt", keyword);
+	}
+		
+		
 	//게시글 조회
 	public BoardVo selectOne(int no) {
 		System.out.println("bdao selectOne");
@@ -50,10 +81,5 @@ public class BoardDao {
 		System.out.println("bdao insert");
 		return sqlSession.insert("board.insert", bvo);
 	}
-	
-	//게시글 찾기
-	public List<BoardVo> search(String word) {
-		System.out.println("bdao word");
-		return sqlSession.selectList("board.search", word);
-	}
+
 }

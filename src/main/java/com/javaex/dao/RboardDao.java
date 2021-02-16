@@ -49,11 +49,6 @@ public class RboardDao {
 		return sqlSession.delete("rboard.delete", rvo);
 	}
 	
-	//게시글 삭제 수정
-	public int deleteupdate(RboardVo rvo) {
-		System.out.println("rdao deleteupdate");
-		return sqlSession.delete("rboard.deleteupdate", rvo);
-	}
 
 	//게시글 작성
 	public int insert(RboardVo rvo) {

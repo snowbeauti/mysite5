@@ -43,17 +43,16 @@ public class RboardService {
 	// 게시글 삭제
 	public String delete(RboardVo rvo) {
 		System.out.println("rservice delete");
-		rdao.rList(rvo);
-		System.out.println("filltervo: " + rdao.rList(rvo));
 		
-		if (rdao.rList(rvo) == null) {
+		List<RboardVo> rList= rdao.rList(rvo);
+		System.out.println("filltervo: " + rList);
+		
+		if (rList == null) {
 			System.out.println("service 삭제");
 			rdao.delete(rvo);
 			return "delete";
 		} else {
 			System.out.println("service 삭제불가");
-			RboardVo rboardvo = new RboardVo(rvo.getNo(), "삭제된 메세지입니다.", "삭제된 메세지입니다.", rvo.getHit(), rvo.getReg_date(), 0);	
-			rdao.deleteupdate(rboardvo);
 			return "deletefail";
 		}
 	}

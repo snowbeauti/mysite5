@@ -108,16 +108,6 @@
 		]]>
 	</delete>
 	
-	<!-- 게시글 삭제 수정 -->
-	<update id="deleteupdate" parameterType="com.javaex.vo.RboardVo">
-		<![CDATA[
-			UPDATE rboard
-			set user_no = ${user_no},
-    	   		title = ${title},
-				content = ${content}
-			where no = ${no}
-		]]>
-	</update>
 		
 <!-- 댓글 저장 -->
 	<insert id="reinsert" parameterType="com.javaex.vo.RboardVo">	

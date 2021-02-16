@@ -75,8 +75,13 @@ public class RboardController {
 	public String delete(@ModelAttribute RboardVo rvo){
 		System.out.println("/rboard/delete");
 		rservice.delete(rvo);
-
+		
+		if(rservice.delete(rvo).equals("delete")) {
 		System.out.println("삭제 " + rvo);
+		
+		} else {
+			return "redirect:/rboard";
+		}
 		return "redirect:/rboard";
 	}
 	

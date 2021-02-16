@@ -42,4 +42,21 @@ public class UserService {
 		return udao.update(uvo);
 		
 	}
+	
+	//회원가입 - 아이디체크
+	public String idcheck(String id) {
+		System.out.println("uservice idcheck()" + id);
+		UserVo uvo = udao.selectOne(id);
+		String result = "";
+		
+		if(uvo == null) {
+			//회원가입가능
+			result = "can";
+		} else {
+			//회원가입불가능
+			result = "cant";
+		}
+		
+		return result;
+	}
 }

@@ -8,6 +8,8 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.javaex.dao.UserDao;
 import com.javaex.service.UserService;
@@ -122,5 +124,19 @@ public class UserController {
 			authUser.setName(uvo.getName());			
 			
 			return "redirect:/";
+	}
+	
+	//회원가입 - 아이디체크
+	@ResponseBody
+	@RequestMapping(value = "/idcheck", method = { RequestMethod.GET, RequestMethod.POST })
+	public String idcheck(@RequestParam("id") String id ) {
+		System.out.println("user/idcheck");
+		System.out.println("checkid = " + id );		
+		
+		String result = uservice.idcheck(id);		
+		System.out.println(result);
+		
+		return result; //jsp를 찾는 문법 (@ResponseBody -->response의 Body영역에 데이터만 보낸다._return값)
+		
 	}
 }

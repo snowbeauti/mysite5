@@ -35,9 +35,9 @@
 		<![CDATA[
 			SELECT no,
        			   name,
-      	       	password,
-          	   	content,
-         	   	reg_date
+      	           password,
+          	   	   content,
+         	   	   reg_date
        		FROM guestbook
        		where no = #{no}
 		]]>
@@ -51,5 +51,24 @@
 			where no = #{no}
 		]]>
 	</delete>
+	
+	
+	<!-- ajax 방명록 저장 -->
+	<insert id="insertSelectkey" parameterType="com.javaex.vo.GuestVo">
+		<selectKey keyProperty="no" resultType="int" order="BEFORE">	
+		select seq_no.nextval from dual
+	</selectKey>
+
+		
+		<![CDATA[
+		
+			insert into guestbook
+			values(#{no}, 
+			       #{name}, 
+			       #{password}, 
+			       #{content}, 
+			       sysdate)
+		]]>
+	</insert>
 
 </mapper>

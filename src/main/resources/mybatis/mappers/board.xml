@@ -36,7 +36,81 @@
 	   	 and board.no = #{no}
 		]]>
 	</select>
+	
+	<!-- 글가져오기 검색어 -->
+	<select id="selectList2" parameterType="String" resultType="com.javaex.vo.BoardVo">
+		<![CDATA[
+			SELECT board.no,
+    	  		   board.title,
+       		       board.content,
+           		   board.hit,
+       	           board.reg_date,
+ 	      	       board.user_no,
+    	    	   users.id,
+       		       users.name
+	  	  FROM board, users
+	   	 where board.user_no = users.no
+   		 ]]>
+	   	 <if test="value != null and value != ''">
+	   	 	<![CDATA[
+        	 and title like '%' || #{keyword} || '%'
+        	 ]]>
+         </if>
+        <![CDATA[
+         order by no desc
+		]]>
+	</select>
 
+<!-- 글가져오기 검색어 -->
+	<select id="selectList3" parameterType="String" resultType="com.javaex.vo.BoardVo">
+		<![CDATA[
+			select r.rnum,
+			       r.no,
+ 			       r.title,
+ 			       r.hit,
+ 			       r.reg_date,
+			       r.user_no,
+			       r.name
+			from(select rownum rnum,
+			            o.no,
+			            o.title,
+			            o.hit,
+			            o.reg_date,
+			            o.user_no,
+			            o.name
+			     from (select b.no,
+			                  b.title,
+			                  b.hit,
+			                  to_char(b.reg_date, 'yyyy-mm-dd HH:MI:SS') reg_date,
+			                  b.user_no,
+			                  u.name
+			           from board b, users u
+			           where b.user_no = u.no
+		 ]]>
+	   		 <if test="value != null and value != ''">
+			            and title like '%' || #{keyword} || '%'
+			</if>
+        <![CDATA[
+			           order by no desc) o) r
+			where r.rnum >= #{startRNum}
+			and r.rnum <= #{endRNum}
+		]]>
+	</select>
+	
+	
+	<!-- 전체글개수 가져오기 -->
+	<select id="selectTotalCnt" parameterType="String" resultType="int">
+		<![CDATA[
+			select count(*)
+			from board b, users u
+			where b.user_no = u.no
+			 ]]>
+	   		 <if test="value != null and value != ''">
+			            and title like '%' || #{keyword} || '%'
+			</if>
+	</select>
+	
+	
 	<!-- 조회수 -->
 	<update id="updateHit" parameterType="int">
 		<![CDATA[
@@ -76,18 +150,5 @@
 		]]>
 	</delete>
 	
-	<!-- 게시물 검색 -->
-	<select id="search" parameterType="String" resultType="com.javaex.vo.BoardVo">
-		<![CDATA[
-			SELECT board.title, 
-			       board.content, 
-			       users.id, 
-			       users.name 
-			FROM board, users
-			where board.title like '%'||'#{word}'||'%'
-			or users.id like '%'||'#{word}'||'%'
-			or users.name like '%'||'#{word}'||'%'
-			and users.no = board.user_no
-		]]>
-	</select>
+
 </mapper>

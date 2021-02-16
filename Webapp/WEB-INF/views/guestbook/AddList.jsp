@@ -23,8 +23,8 @@
 		<div id="aside">
 			<h2>방명록</h2>
 			<ul>
-				<li><a href="${pageContext.request.contextPath}/gbook/addlist">일반방명록</a></li>
-				<li>ajax방명록</li>
+				<li><a href="${pageContext.request.contextPath}/gbook">일반방명록</a></li>
+				<li><a href="${pageContext.request.contextPath}/gbook/ajaxlist">ajax방명록</a></li>
 			</ul>
 		</div>
 		<!-- //aside -->
